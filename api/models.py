@@ -10,6 +10,20 @@ class Meal(models.Model):
     desc = models.CharField(max_length=50)
     prix = models.IntegerField()
 
+    def no_of_ratings(self):
+        rating = Rating.objects.filter(meal=self)
+        return len(rating)
+
+    def avg_rating(self):
+        sum = 0
+        rate = Rating.objects.filter(meal=self)
+        for x in rate:
+            sum = sum + x.stars
+        if len(rate) > 0:
+            return sum / len(rate)
+        else:
+            return 0
+
     def __str__(self):
         return self.title
 
